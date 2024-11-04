@@ -16,14 +16,14 @@ body, html {
 /* Fundo para desktop */
 @media (min-width: 768px) {
     body {
-        background-image: url('https://i.imgur.com/P3HwH1x.jpeg');
+        background-image: url('images/green-leaves-horizontal.jpg');
     }
 }
 
 /* Fundo para mobile */
 @media (max-width: 767px) {
     body {
-        background-image: url('https://i.imgur.com/LQlLQuh.jpeg');
+        background-image: url('images/green-leaves-vertical.jpg');
     }
 }
 
