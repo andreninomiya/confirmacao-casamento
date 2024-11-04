@@ -126,14 +126,17 @@
                             .filter(name => name);
 
             if (names.length > 0) {
-                fetch('https://script.google.com/macros/s/AKfycbxOH6wKL2QLWiGH2UEM0dZhx3E6I2AhwhjU8YK9SenWcHC_H9GEWBB4uJpGmumQpg/exec', {
+                fetch('https://script.google.com/macros/s/AKfycbyUlhMnI3DiZXG6Bqa9rvMoIblCoGDjOjju4tJO_BL7-1zlEGBvTmQi_XGD_zVozGvj/exec', {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ names })
                 })
                 .then(response => response.json())
                 .then(data => openModal("Confirmação enviada com sucesso!", 'success'))
-                .catch(error => openModal("Erro ao enviar confirmação.", 'error'));
+                .catch(error => {
+                    console.log(error),
+                    openModal("Erro ao enviar confirmação.", 'error')
+                });
             } else {
                 openModal("Por favor, adicione ao menos um nome.", 'alert');
             }
