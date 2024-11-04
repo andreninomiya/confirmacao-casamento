@@ -57,6 +57,10 @@
         </div>
     </div>
 
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
 
     <script>
         let guestCount = 1;
@@ -122,9 +126,21 @@
             location.reload(); // Recarrega a página
         }
 
+        // Mostrar o spinner de loading
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+        }
+
+        // Esconder o spinner de loading
+        function hideLoading() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
         // Envio do formulário para o Google Sheets
         document.getElementById('rsvpForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            showLoading(); // Mostra o loading ao iniciar o envio
+
             const names = Array.from(document.querySelectorAll('input[name="guestName[]"]'))
                             .map(input => input.value.trim())
                             .filter(name => name);
@@ -136,22 +152,26 @@
                     body: JSON.stringify({ names })
                 })
                 .then(response => {
-                    if (!response.ok) { // Verifica se a resposta é OK (200-299)
+                    if (!response.ok) {
                         throw new Error('Network response was not ok: ' + response.statusText);
                     }
                     return response.json();
                 })
-                .then(data => openModal("Confirmação enviada com sucesso!", 'success'))
+                .then(data => {
+                    hideLoading(); // Esconde o loading após sucesso
+                    openModal("Confirmação enviada com sucesso!", 'success');
+                })
                 .catch(error => {
+                    hideLoading(); // Esconde o loading em caso de erro
                     console.error('Fetch error: ', error);
                     openModal("Erro ao enviar confirmação.", 'error');
                 });
 
             } else {
+                hideLoading(); // Esconde o loading se não houver nomes
                 openModal("Por favor, adicione ao menos um nome.", 'alert');
             }
         });
-
 
     </script>
 </body> 
