@@ -165,6 +165,78 @@ button {
     background-color: #709b81;
     transform: scale(1.02);
 }
+/* Estilos do Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease; /* Animação de entrada */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: scaleUp 0.3s ease; /* Efeito de ampliação */
+}
+
+/* Botão de Fechar */
+.close-btn {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: -10px;
+    margin-right: -10px;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.7); }
+    to { transform: scale(1); }
+}
+
+/* Estilo do ícone no modal */
+.icon {
+    font-size: 2em;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Cores para cada tipo de mensagem */
+.icon.success {
+    color: #89ab98;
+}
+
+.icon.error {
+    color: #89ab98;
+}
+
+.icon.alert {
+    color: #89ab98;
+}
 
 
 /* Adicione esta regra ao seu CSS para garantir que o box-sizing seja aplicado */

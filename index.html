@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Presença - Giovana e Wagner</title>
-    <!-- Link para o Google Fonts para a fonte Poiret One -->
+
+    <!-- Link para o Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+
+    <!-- Link para o Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Link para o estilo CSS -->
     <link rel="stylesheet" href="style.css">
@@ -40,6 +44,16 @@
         </form>
     </div>
 
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <span id="icon" class="icon"></span>
+            <p id="confirmationMessage">Confirmação enviada com sucesso!</p>
+        </div>
+    </div>
+
+
     <script>
         let guestCount = 1;
 
@@ -63,6 +77,47 @@
             button.parentElement.remove();
         }
 
+        // Função para abrir o modal
+        function openModal(message) {
+            document.getElementById('confirmationMessage').textContent = message;
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        // Função para abrir o modal com a mensagem e o tipo de ícone
+        function openModal(message, type) {
+            const modal = document.getElementById('confirmationModal');
+            const messageElement = document.getElementById('confirmationMessage');
+            const iconElement = document.getElementById('icon');
+
+            messageElement.textContent = message;
+
+            // Remove todas as classes de ícone e adiciona a correta
+            iconElement.className = 'icon'; // Reseta para apenas 'icon'
+            if (type === 'success') {
+                iconElement.innerHTML = '<i class="fa-solid fa-circle-check"></i>'; // Ícone de sucesso
+                iconElement.classList.add('success');
+            } else if (type === 'error') {
+                iconElement.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>'; // Ícone de erro
+                iconElement.classList.add('error');
+            } else if (type === 'alert') {
+                iconElement.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>'; // Ícone de alerta
+                iconElement.classList.add('alert');
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            location.reload(); // Recarrega a página
+        }
+
         // Envio do formulário para o Google Sheets
         document.getElementById('rsvpForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -71,19 +126,20 @@
                             .filter(name => name);
 
             if (names.length > 0) {
-                fetch('https://script.google.com/macros/s/AKfycbzGbbdJA4CqwdcxBWjCK4hKicJXszSzF2Oz6Edq0RXPrGOQq8cr9WC-mDq5iMwXPBk2/exec', { // Substitua pelo URL do seu aplicativo
+                fetch('https://script.google.com/macros/s/AKfycbxOH6wKL2QLWiGH2UEM0dZhx3E6I2AhwhjU8YK9SenWcHC_H9GEWBB4uJpGmumQpg/exec', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({ names })
                 })
                 .then(response => response.json())
-                .then(data => alert("Confirmação enviada com sucesso!"))
-                .catch(error => alert("Erro ao enviar confirmação."));
+                .then(data => openModal("Confirmação enviada com sucesso!", 'success'))
+                .catch(error => openModal("Erro ao enviar confirmação.", 'error'));
             } else {
-                alert("Por favor, adicione ao menos um nome.");
+                openModal("Por favor, adicione ao menos um nome.", 'alert');
             }
         });
 
+
     </script>
-</body>
+</body> 
 </html>
